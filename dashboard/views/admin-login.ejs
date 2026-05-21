@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hivemind Admin Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            max-width: 450px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background: #ffe0e0;
+            border: 2px solid #ff6b6b;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 20px;
+            color: #cc0000;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .recaptcha-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 25px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">🔐</div>
+            <h1>Admin Login</h1>
+            <p>Enter your password to access the admin panel</p>
+        </div>
+
+        <% if (error) { %>
+            <div class="error-message">
+                ❌ <%= error %>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/admin/login">
+            <div class="form-group">
+                <label for="password">Admin Password</label>
+                <input type="password" id="password" name="password" required autofocus />
+            </div>
+
+            <div class="recaptcha-wrapper">
+                <div class="g-recaptcha" data-sitekey="6Lfwn9sqAAAAAEUOn3I28QyciIlA_O4c8Q87MuxU"></div>
+            </div>
+
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+        <div class="back-link">
+            <a href="/">← Back to Game</a>
+        </div>
+    </div>
+</body>
+</html>

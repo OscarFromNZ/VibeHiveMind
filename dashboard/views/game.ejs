@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIVEMIND // issue daily</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Workbench&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/game.css">
+</head>
+<body>
+    <div class="reg-mark reg-tl"><div class="pink-dot"></div></div>
+    <div class="reg-mark reg-tr"><div class="pink-dot"></div></div>
+    <div class="reg-mark reg-bl"><div class="pink-dot"></div></div>
+    <div class="reg-mark reg-br"><div class="pink-dot"></div></div>
+
+    <svg class="ink-blot" viewBox="0 0 100 100" aria-hidden="true">
+        <path fill="#3d5a96" d="M50 8 C66 8 78 18 82 32 C90 36 92 50 86 60 C92 68 88 82 76 86 C70 96 54 96 46 88 C32 94 18 86 16 72 C6 68 6 54 14 48 C10 36 22 22 36 22 C38 14 44 8 50 8 Z"/>
+        <circle cx="24" cy="86" r="3" fill="#3d5a96"/>
+        <circle cx="88" cy="22" r="2" fill="#3d5a96"/>
+        <circle cx="12" cy="34" r="1.6" fill="#3d5a96"/>
+    </svg>
+
+    <div class="rubber-stamp">
+        Fresh Ink
+        <span class="small">do not smudge</span>
+    </div>
+
+    <header class="masthead">
+        <div class="left">
+            <span class="stamp">HIVEMIND</span>
+            <span>Vol. MMXXVI</span>
+            <span id="issue-no">Issue №—</span>
+        </div>
+        <a href="/admin" class="admin-link">Editorial Desk →</a>
+    </header>
+
+    <div class="perforation" aria-hidden="true">
+        <span>✂</span> tear here if you dare · vol. mmxxvi
+    </div>
+
+    <main class="zine">
+        <span class="label reveal d1" data-text="TODAY'S FEATURE">TODAY'S FEATURE</span>
+        <div>
+            <h1 class="riso-word" data-text="<%= word.toUpperCase() %>"><%= word.toUpperCase() %></h1>
+        </div>
+
+        <p class="prompt reveal d2">
+            What's the most commonly guessed word? Think hard. <em>Send it to press.</em>
+        </p>
+
+        <form action="/" method="POST" class="reveal d3">
+            <div class="form-group">
+                <input type="text" name="guess" placeholder="type your response" required autofocus autocomplete="off" />
+            </div>
+
+            <div class="recaptcha-wrapper">
+                <div class="g-recaptcha" data-sitekey="6Lfwn9sqAAAAAEUOn3I28QyciIlA_O4c8Q87MuxU"></div>
+            </div>
+
+            <button type="submit" class="submit-button">Print →</button>
+        </form>
+
+        <section class="stats reveal d5">
+            <div class="stat-label">Circulation today</div>
+            <div class="stat-value" data-text="<%= totalGuesses %>"><%= totalGuesses %></div>
+        </section>
+    </main>
+
+    <div class="colophon">
+        printed daily <span>·</span> midnight UTC <span>·</span> where
+    </div>
+
+    <div class="signature">sig. <b>H</b>·M</div>
+    <div class="torn-edge" aria-hidden="true"></div>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/js/game.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hivemind Admin</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .header-info h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-box {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .header-action {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .back-link {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .message-box {
+            background: #e8f7ff;
+            border: 2px solid #b3e0ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 30px;
+            color: #0066cc;
+            font-weight: 500;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .action-link {
+            display: inline-block;
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 13px;
+        }
+
+        .action-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .remove-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .remove-link:hover {
+            background: #ee5a52;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .hint-text {
+            color: #777;
+            font-size: 12px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-stats {
+                grid-template-columns: 1fr;
+            }
+
+            th, td {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div class="header-info">
+                <h1>🧠 Hivemind Admin</h1>
+                <div class="header-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Current Word</div>
+                        <div class="stat-value"><%= currentWord %></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Guesses</div>
+                        <div class="stat-value" data-live="totalGuesses"><%= totalGuesses %></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Unique Words</div>
+                        <div class="stat-value" data-live="uniqueWords"><%= totalUniqueWords %></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">UTC Day</div>
+                        <div class="stat-value"><%= currentDay %></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Archived Days</div>
+                        <div class="stat-value"><%= archivedCount %></div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Uptime</div>
+                        <div class="stat-value" data-live="uptime"><%= uptimeSec %>s</div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-action">
+                <a href="/" class="back-link">← Back to Game</a>
+                <a href="/admin/logout" class="back-link" style="background: #ff6b6b; margin-top: 10px;">🚪 Logout</a>
+            </div>
+        </div>
+
+        <% if (message) { %>
+            <div class="message-box">
+                ✅ <%= message %>
+            </div>
+        <% } %>
+
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h2>Change Word</h2>
+                <form id="changeWordForm" action="/admin/change-word" method="POST">
+                    <div class="form-group">
+                        <label for="word">New Word</label>
+                        <input id="word" name="word" type="text" placeholder="Enter a new word" required />
+                    </div>
+                    <a href="#" class="action-link" data-form="changeWordForm">Change Word</a>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h2>Schedule Word</h2>
+                <form id="scheduleWordForm" action="/admin/schedule-word" method="POST">
+                    <div class="form-group">
+                        <label for="scheduledWord">Word</label>
+                        <input id="scheduledWord" name="word" type="text" placeholder="Word to schedule" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="scheduleTime">Time (UTC HH:MM)</label>
+                        <input id="scheduleTime" name="time" type="text" placeholder="14:30" pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$" required />
+                    </div>
+                    <a href="#" class="action-link" data-form="scheduleWordForm">Add Schedule</a>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h3 class="section-title">⏰ Scheduled Word Changes</h3>
+            <% if (scheduledWords.length === 0) { %>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p>No schedules configured yet. Add one to get started!</p>
+                </div>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Word</th>
+                            <th>Time (UTC)</th>
+                            <th class="center-text">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% scheduledWords.forEach(entry => { %>
+                            <tr>
+                                <td><strong><%= entry.word %></strong></td>
+                                <td><%= entry.time %></td>
+                                <td class="center-text">
+                                    <form id="removeScheduleForm-<%= entry.id %>" action="/admin/remove-schedule" method="POST" style="display:inline;">
+                                        <input type="hidden" name="scheduleId" value="<%= entry.id %>" />
+                                        <a href="#" class="remove-link" data-form="removeScheduleForm-<%= entry.id %>">Remove</a>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h2>⚠️ Danger Zone</h2>
+                <p style="color: #999; font-size: 13px; margin-bottom: 20px;">These actions will permanently clear data.</p>
+                <form id="clearLeaderboardForm" action="/admin/clear-leaderboard" method="POST">
+                    <a href="#" class="action-link" data-form="clearLeaderboardForm" style="background: #ff6b6b;">Clear All Leaderboard</a>
+                </form>
+                <form id="rolloverForm" action="/admin/rollover" method="POST" style="margin-top: 12px;">
+                    <a href="#" class="action-link" data-form="rolloverForm" style="background: #f59e0b;">Force Daily Rollover (archive + reset)</a>
+                </form>
+                <form id="cleanupForm" action="/admin/cleanup-leaderboard" method="POST" style="margin-top: 12px;">
+                    <div class="form-group">
+                        <label for="minCount">Remove entries with count below</label>
+                        <input id="minCount" name="minCount" type="number" min="1" max="1000" value="2" required />
+                    </div>
+                    <a href="#" class="action-link" data-form="cleanupForm" style="background: #8b5cf6;">Cleanup Low-Count Words</a>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h2>🤖 Fake AI Data Generator</h2>
+                <p style="color: #999; font-size: 13px; margin-bottom: 15px;">Populate guesses with configurable synthetic data.</p>
+                <form id="generateFakeDataForm" action="/admin/generate-fake-data" method="POST">
+                    <div class="form-group">
+                        <label for="fakeCount">Number of guesses</label>
+                        <input id="fakeCount" name="count" type="number" min="1" max="5000" value="100" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="fakeMode">Generation mode</label>
+                        <select id="fakeMode" name="mode" required>
+                            <option value="ai" selected>Local AI-like (no API needed) ✅</option>
+                            <option value="gemini">Gemini (requires GEMINI_API_KEY + billing)</option>
+                            <option value="copilot">Copilot-compatible (requires GITHUB_TOKEN)</option>
+                            <option value="uniform">Uniform (random common words)</option>
+                        </select>
+                    </div>
+                    <a href="#" class="action-link" data-form="generateFakeDataForm" style="background: #667eea;">Generate Fake Guesses</a>
+                </form>
+                <p class="hint-text">Local AI-like always works with no API. Gemini/Copilot require paid API access with quota remaining.</p>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h3 class="section-title">📊 Leaderboard Management</h3>
+            <% if (leaderboard.length === 0) { %>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p>No leaderboard entries yet. Players' guesses will appear here.</p>
+                </div>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Word</th>
+                            <th>Count</th>
+                            <th class="center-text">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% leaderboard.slice(0, 20).forEach(entry => { %>
+                            <tr>
+                                <td><strong><%= entry.rank %></strong></td>
+                                <td><%= entry.word %></td>
+                                <td><%= entry.count %></td>
+                                <td class="center-text">
+                                    <form id="removeLeaderboardForm-<%= entry.word %>" action="/admin/remove-leaderboard" method="POST" style="display:inline;">
+                                        <input type="hidden" name="word" value="<%= entry.word %>" />
+                                        <a href="#" class="remove-link" data-form="removeLeaderboardForm-<%= entry.word %>">Remove</a>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h2>🚫 Blocklist</h2>
+                <p style="color: #999; font-size: 13px; margin-bottom: 15px;">
+                    Words rejected at submission. Baseline + env vars are always active and shown grayed out.
+                </p>
+                <form id="blocklistAddForm" action="/admin/blocklist/add" method="POST">
+                    <div class="form-group">
+                        <label for="blockWord">Add word</label>
+                        <input id="blockWord" name="word" type="text" placeholder="word to block" required />
+                    </div>
+                    <a href="#" class="action-link" data-form="blocklistAddForm" style="background: #ef4444;">Block Word</a>
+                </form>
+                <% if (allBlocked.length === 0) { %>
+                    <p class="hint-text" style="margin-top: 20px;">No blocked words.</p>
+                <% } else { %>
+                    <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px;">
+                        <% allBlocked.forEach(word => { %>
+                            <% const isCustom = customBlocklist.includes(word); %>
+                            <% if (isCustom) { %>
+                                <form action="/admin/blocklist/remove" method="POST" style="display:inline;">
+                                    <input type="hidden" name="word" value="<%= word %>" />
+                                    <button type="submit" style="padding:6px 12px; border-radius:999px; border:1px solid #ef4444; background:#fee2e2; color:#991b1b; cursor:pointer; font-size:12px; font-family:inherit;">
+                                        <%= word %> ✕
+                                    </button>
+                                </form>
+                            <% } else { %>
+                                <span style="padding:6px 12px; border-radius:999px; border:1px solid #d1d5db; background:#f3f4f6; color:#6b7280; font-size:12px;" title="baseline / env (immutable here)">
+                                    <%= word %>
+                                </span>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="admin-card">
+                <h2>📥 Export</h2>
+                <p style="color: #999; font-size: 13px; margin-bottom: 15px;">Download a snapshot for backup or analysis.</p>
+                <a href="/admin/export.json" class="action-link" style="background: #0ea5e9; margin-bottom: 12px;">Download Full State (JSON)</a>
+                <a href="/admin/export.csv" class="action-link" style="background: #10b981;">Download Today's Leaderboard (CSV)</a>
+            </div>
+        </div>
+
+        <% if (votedWords && votedWords.length > 0) { %>
+            <div class="table-card">
+                <h3 class="section-title">🗳️ Top Voted Words</h3>
+                <p style="color: #999; font-size: 13px; margin-bottom: 15px;">Words players upvoted on the result page.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Word</th>
+                            <th>Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% votedWords.forEach(entry => { %>
+                            <tr>
+                                <td><strong><%= entry.rank %></strong></td>
+                                <td><%= entry.word %></td>
+                                <td><%= entry.count %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+
+        <% if (history && history.length > 0) { %>
+            <div class="table-card">
+                <h3 class="section-title">📜 Archive — past days</h3>
+                <p style="color: #999; font-size: 13px; margin-bottom: 15px;">Showing newest <%= history.length %> archived day(s). Older entries are evicted at 365.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Date (UTC)</th>
+                            <th>Word</th>
+                            <th>Top Guess</th>
+                            <th>Total</th>
+                            <th>Unique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% history.forEach(entry => { %>
+                            <tr>
+                                <td><strong><%= entry.day %></strong></td>
+                                <td><%= entry.date %></td>
+                                <td><%= entry.word %></td>
+                                <td>
+                                    <% if (entry.topGuesses && entry.topGuesses[0]) { %>
+                                        <%= entry.topGuesses[0].word %> (<%= entry.topGuesses[0].count %>)
+                                    <% } else { %>
+                                        —
+                                    <% } %>
+                                </td>
+                                <td><%= entry.totalGuesses %></td>
+                                <td><%= entry.uniqueWords %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+            if (target.matches('.action-link') || target.matches('.remove-link')) {
+                // Don't intercept real anchor links (e.g. exports, logout)
+                if (target.tagName === 'A' && target.getAttribute('href') && target.getAttribute('href') !== '#') {
+                    return;
+                }
+                event.preventDefault();
+                const formId = target.getAttribute('data-form');
+                if (!formId) return;
+                const form = document.getElementById(formId);
+                if (form) form.submit();
+            }
+        });
+
+        // Live stats: poll /healthz every 5s
+        (function () {
+            const targets = {
+                totalGuesses: document.querySelector('[data-live="totalGuesses"]'),
+                uniqueWords: document.querySelector('[data-live="uniqueWords"]'),
+                uptime: document.querySelector('[data-live="uptime"]')
+            };
+            if (!targets.totalGuesses) return;
+
+            function fmtUptime(sec) {
+                const h = Math.floor(sec / 3600);
+                const m = Math.floor((sec % 3600) / 60);
+                const s = sec % 60;
+                if (h > 0) return h + 'h ' + m + 'm';
+                if (m > 0) return m + 'm ' + s + 's';
+                return s + 's';
+            }
+
+            async function tick() {
+                try {
+                    const res = await fetch('/healthz', { cache: 'no-store' });
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    if (targets.totalGuesses) targets.totalGuesses.textContent = data.totalGuesses;
+                    if (targets.uniqueWords) targets.uniqueWords.textContent = data.uniqueWords;
+                    if (targets.uptime) targets.uptime.textContent = fmtUptime(data.uptimeSec);
+                } catch (e) { /* ignore */ }
+            }
+            setInterval(tick, 5000);
+        })();
+    </script>
+</body>
+
+</html>
+

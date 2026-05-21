@@ -1,0 +1,38 @@
+{
+  "savedAt": "2026-05-21T10:25:19.981Z",
+  "currentDay": 141,
+  "word": "Winter",
+  "guessCounts": {
+    "summer": 1,
+    "cold": 1
+  },
+  "totalGuesses": 2,
+  "votedWords": {},
+  "wordSchedules": [],
+  "history": [
+    {
+      "day": 140,
+      "date": "2026-05-21",
+      "word": "Winter",
+      "totalGuesses": 8,
+      "uniqueWords": 2,
+      "topGuesses": [
+        {
+          "word": "snow",
+          "count": 5
+        },
+        {
+          "word": "cold",
+          "count": 3
+        }
+      ],
+      "topVoted": [
+        {
+          "word": "ice",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "customBlocklist": []
+}

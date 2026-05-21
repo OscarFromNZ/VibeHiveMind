@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIVEMIND // off the presses</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Workbench&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/result.css">
+</head>
+<body>
+    <div class="reg-mark reg-tl"><div class="pink-dot"></div></div>
+    <div class="reg-mark reg-tr"><div class="pink-dot"></div></div>
+    <div class="reg-mark reg-bl"><div class="pink-dot"></div></div>
+    <div class="reg-mark reg-br"><div class="pink-dot"></div></div>
+
+    <svg class="ink-blot" viewBox="0 0 100 100" aria-hidden="true">
+        <path fill="#ff48b0" d="M50 8 C66 8 78 18 82 32 C90 36 92 50 86 60 C92 68 88 82 76 86 C70 96 54 96 46 88 C32 94 18 86 16 72 C6 68 6 54 14 48 C10 36 22 22 36 22 C38 14 44 8 50 8 Z"/>
+        <circle cx="24" cy="86" r="3" fill="#ff48b0"/>
+        <circle cx="88" cy="22" r="2" fill="#ff48b0"/>
+    </svg>
+
+    <div class="filed-stamp">
+        filed
+        <b id="filed-date">—</b>
+        ut·c
+    </div>
+
+    <header class="masthead">
+        <div class="left">
+            <span class="stamp">HIVEMIND</span>
+            <span>Vol. MMXXVI</span>
+            <span id="issue-no">Issue №—</span>
+        </div>
+        <a href="/admin" class="admin-link">Editorial Desk →</a>
+    </header>
+
+    <div class="perforation" aria-hidden="true">
+        <span>✂</span> off the press · cut & keep
+    </div>
+
+    <main class="spread">
+        <span class="label reveal d1" data-text="OFF THE PRESSES">OFF THE PRESSES</span>
+        <div>
+            <h1 class="your-guess" data-text="<%= guess.toUpperCase() %>"><%= guess.toUpperCase() %></h1>
+        </div>
+
+        <blockquote class="pull-quote reveal d2">
+            <span id="daily-quote">—</span>
+            <cite id="daily-quote-by"></cite>
+        </blockquote>
+
+        <section class="revelations">
+            <div class="revelation reveal d3">
+                <div class="revelation-label">Rank</div>
+                <div class="revelation-value"><%= score.rank %></div>
+                <div class="revelation-description">of <%= score.totalGuesses %> readers</div>
+            </div>
+            <div class="revelation reveal d4">
+                <div class="revelation-label">Sync</div>
+                <div class="revelation-value"><%= score.percentage %>%</div>
+                <div class="revelation-description">printed the same word</div>
+            </div>
+            <div class="revelation reveal d5">
+                <div class="revelation-label">Top of page</div>
+                <div class="revelation-value"><%= score.mostCommon %></div>
+                <div class="revelation-description">the hive's headline</div>
+            </div>
+        </section>
+
+        <div class="asterism" aria-hidden="true">⁂</div>
+
+        <section class="chorus reveal d6">
+            <h3 class="chorus-title" data-text="THE CHORUS">THE CHORUS</h3>
+            <ul class="chorus-list">
+                <% score.leaderboard.forEach(entry => { %>
+                    <li class="chorus-item">
+                        <span class="rank"><%= entry.rank %></span>
+                        <span class="word"><%= entry.word.toUpperCase() %></span>
+                        <span class="count"><%= entry.count %></span>
+                    </li>
+                <% }) %>
+            </ul>
+        </section>
+
+        <div class="actions">
+            <button class="action-button btn-copy" type="button">Copy Clipping</button>
+            <a class="action-button btn-next" href="/">Return ←</a>
+        </div>
+    </main>
+
+    <div class="colophon">
+        printed daily <span>·</span> midnight UTC <span>·</span> <span id="next-edition">next edition in —</span>
+        <% if (typeof streak !== 'undefined' && streak > 1) { %>
+            <span>·</span> reading streak <b><%= streak %></b> days
+        <% } %>
+    </div>
+
+    <div class="signature">sig. <b>H</b>·M</div>
+    <div class="torn-edge" aria-hidden="true"></div>
+
+    <script id="result-data" type="application/json"><%- JSON.stringify({ scoreMessage: score.scoreMessage, guess: guess, nextResetMs: (typeof nextResetMs !== 'undefined' ? nextResetMs : 0), streak: (typeof streak !== 'undefined' ? streak : 0) }).replace(/</g, '\\u003c') %></script>
+    <script src="/js/result.js" defer></script>
+</body>
+</html>
